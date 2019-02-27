@@ -3,7 +3,7 @@ ARG TOOLS_VERSION=latest
 FROM moorara/tools:$TOOLS_VERSION as tools
 
 # Final Image
-FROM golang:1.11
+FROM golang:1.12
 
 ARG VERSION
 ARG REVISION
