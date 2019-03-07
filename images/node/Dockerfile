@@ -3,7 +3,7 @@ ARG TOOLS_VERSION=latest
 FROM moorara/tools:$TOOLS_VERSION as tools
 
 # Final Image
-FROM golang:1.12
+FROM node:11.10
 
 ARG VERSION
 ARG REVISION
@@ -29,9 +29,6 @@ RUN apt-get update && \
       apt-get autoremove -y && \
       apt-get clean -y
 
-# Install gometalinter
-RUN curl -sL https://git.io/vp6lP | sh
-
 # Docker tools
 COPY --from=tools /usr/local/bin/docker /usr/local/bin/docker
 COPY --from=tools /usr/local/bin/docker-compose /usr/local/bin/docker-compose
@@ -50,7 +47,3 @@ RUN pip install yamllint
 # SaaS command-line tools
 COPY --from=tools /usr/local/bin/test-reporter /usr/local/bin/test-reporter
 COPY --from=tools /usr/local/bin/circleci /usr/local/bin/circleci
-
-# Install Cherry (and github-changelog-generator)
-RUN gem install github_changelog_generator && \
-    curl -s https://raw.githubusercontent.com/moorara/cherry/master/scripts/install.sh | bash
