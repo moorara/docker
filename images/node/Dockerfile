@@ -3,7 +3,7 @@ ARG TOOLS_VERSION=latest
 FROM moorara/tools:$TOOLS_VERSION as tools
 
 # Final Image
-FROM node:11.10
+FROM node:11.11
 
 ARG VERSION
 ARG REVISION
