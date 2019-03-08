@@ -21,13 +21,13 @@ LABEL org.opencontainers.image.version="$VERSION" \
 # Install must-have tools
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y \
+    apt-get install --no-install-recommends -y \
       ca-certificates netcat openssl openssh-server openssh-client \
       bash make vim git wget curl jq tar gzip zip unzip gnupg \
       ruby python python-pip && \
-      rm -rf /tmp/* && \
       apt-get autoremove -y && \
-      apt-get clean -y
+      apt-get clean -y && \
+      rm -rf /var/lib/apt/lists/* /tmp/*
 
 # Install gometalinter
 RUN curl -sL https://git.io/vp6lP | sh
