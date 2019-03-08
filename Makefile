@@ -22,6 +22,7 @@ build-tools:
 push-tools:
 	@ docker image tag "$(tools_image):$(version)" "$(tools_image):latest"
 	docker image push "$(tools_image):$(version)"
+	docker image push "$(tools_image):latest"
 
 
 .PHONY: build-golang
@@ -39,6 +40,7 @@ build-golang:
 push-golang:
 	@ docker image tag "$(golang_image):$(version)" "$(golang_image):latest"
 	docker image push "$(golang_image):$(version)"
+	docker image push "$(golang_image):latest"
 
 
 .PHONY: build-node
@@ -56,3 +58,4 @@ build-node:
 push-node:
 	@ docker image tag "$(node_image):$(version)" "$(node_image):latest"
 	docker image push "$(node_image):$(version)"
+	docker image push "$(node_image):latest"
