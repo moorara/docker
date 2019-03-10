@@ -1,0 +1,125 @@
+#
+# The following environment variables are required:
+#   CIRCLECI_API_TOKEN
+#   DOCKERHUB_USERNAME
+#   DOCKERHUB_PASSWORD
+#
+# REF:
+#   https://circleci.com/orbs/registry/orb/iynere/compare-url
+#
+
+version: 2.1
+
+orbs:
+  compare-url: iynere/compare-url@0.4.9
+  inline:
+    executors:
+      docker:
+        docker:
+          - image: docker:18.09.3-git
+    commands:
+      set-version:
+        steps:
+          - run:
+              name: Set Version
+              command: echo ${CIRCLE_SHA1:0:7} > VERSION
+
+jobs:
+
+  build:
+    executor: inline/docker
+    steps:
+      - checkout
+      - setup_remote_docker
+      - inline/set-version
+      - attach_workspace:
+          at: .
+      - run:
+          name: Build Modified Docker Images
+          command: |
+            account="moorara"
+            version=$(cat VERSION)
+            revision=$(git rev-parse --verify HEAD)
+            build_time=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+
+            CIRCLE_COMPARE_URL=$(cat CIRCLE_COMPARE_URL.txt)
+            COMMIT_RANGE=$(echo "$CIRCLE_COMPARE_URL" | sed 's:^.*/compare/::g')
+
+            # Create the top-level directory, so persist_to_workspace does not fail
+            mkdir -pv artifacts
+
+            for path in images/*/; do
+              image=$(basename "$path")
+              if [ -n "$(git diff $COMMIT_RANGE --name-status | grep $image)" ]; then
+                # Create a sub-directory for the image
+                mkdir -pv "artifacts/${image}"
+
+                echo -e "\n\033[1;36m Building image ${image} ... \033[0m"
+                cd "$path" || exit
+                docker image build \
+                  --build-arg VERSION="$version" \
+                  --build-arg REVISION="$revision" \
+                  --build-arg BUILD_TIME="$build_time" \
+                  --tag "$account/$image:$version" .
+                docker image tag "$account/$image:$version" "$account/$image:latest"
+                cd -
+
+                echo -e "\n\033[1;36m Saving image ${image} ... \033[0m"
+                docker image save --output "artifacts/${image}/docker-image.tar" "$account/$image"
+              else
+                echo -e "\033[1;33m SKIPPED: image ${image} not modified. \033[0m"
+              fi
+            done
+      - store_artifacts:
+          path: VERSION
+      - persist_to_workspace:
+          root: .
+          paths:
+            - VERSION
+            - artifacts
+
+  push:
+    executor: inline/docker
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: .
+      - run:
+          name: Login to Docker Hub
+          command: docker login --username "$DOCKERHUB_USERNAME" --password "$DOCKERHUB_PASSWORD"
+      - run:
+          name: Push Modified Docker Images
+          command: |
+            account="moorara"
+            version=$(cat VERSION)
+
+            for path in artifacts/*/; do
+              if [ -d "$path" ]; then
+                image=$(basename "$path")
+
+                echo -e "\n\033[1;36m Loading image ${image} ... \033[0m"
+                docker image load --input "artifacts/${image}/docker-image.tar"
+
+                echo -e "\n\033[1;36m Pushing image ${image} ... \033[0m"
+                docker image push "$account/$image:$version"
+                docker image push "$account/$image:latest"
+              fi
+            done
+
+workflows:
+  build-push-images:
+    jobs:
+      - compare-url/reconstruct:
+          name: compare
+          context: dev
+          circle-token: CIRCLECI_API_TOKEN
+      - build:
+          requires:
+            - compare
+      - push:
+          context: dev
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
