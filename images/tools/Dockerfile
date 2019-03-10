@@ -11,7 +11,7 @@ LABEL repository="https://github.com/moorara/docker" \
 LABEL org.opencontainers.image.version="$VERSION" \
       org.opencontainers.image.revision="$REVISION" \
       org.opencontainers.image.created="$BUILD_TIME" \
-      org.opencontainers.image.source="https://github.com/moorara/docker"
+      org.opencontainers.image.source="https://github.com/moorara/docker/tree/master/images/tools"
 
 # Install must-have tools
 RUN apk add --no-cache \
