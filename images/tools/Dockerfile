@@ -1,16 +1,16 @@
 FROM alpine:3.9
 
-ARG VERSION
-ARG REVISION
-ARG BUILD_TIME
+ARG version
+ARG revision
+ARG build_time
 
 LABEL repository="https://github.com/moorara/docker" \
       homepage="https://github.com/moorara/docker" \
       maintainer="Milad Irannejad"
 
-LABEL org.opencontainers.image.version="$VERSION" \
-      org.opencontainers.image.revision="$REVISION" \
-      org.opencontainers.image.created="$BUILD_TIME" \
+LABEL org.opencontainers.image.version="$version" \
+      org.opencontainers.image.revision="$revision" \
+      org.opencontainers.image.created="$build_time" \
       org.opencontainers.image.source="https://github.com/moorara/docker/tree/master/images/tools"
 
 # Install must-have tools

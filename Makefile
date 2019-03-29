@@ -12,9 +12,9 @@ build_time := $(shell date -u +%Y-%m-%dT%H:%M:%SZ)
 build-tools:
 	cd images/tools && \
 	docker image build \
-	  --build-arg VERSION="$(version)" \
-	  --build-arg REVISION="$(commit_sha)" \
-	  --build-arg BUILD_TIME="$(build_time)" \
+	  --build-arg version="$(version)" \
+	  --build-arg revision="$(commit_sha)" \
+	  --build-arg build_time="$(build_time)" \
 	  --tag "$(tools_image):$(version)" \
 	  .
 
