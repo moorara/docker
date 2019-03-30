@@ -1,5 +1,5 @@
 # Final Image
-FROM node:11.12
+FROM node:11.13
 
 ARG version
 ARG revision
