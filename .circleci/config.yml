@@ -57,9 +57,9 @@ jobs:
                 echo -e "\n\033[1;36m Building image ${image} ... \033[0m"
                 cd "$path" || exit
                 docker image build \
-                  --build-arg VERSION="$version" \
-                  --build-arg REVISION="$revision" \
-                  --build-arg BUILD_TIME="$build_time" \
+                  --build-arg version="$version" \
+                  --build-arg revision="$revision" \
+                  --build-arg build_time="$build_time" \
                   --tag "$account/$image:$version" .
                 docker image tag "$account/$image:$version" "$account/$image:latest"
                 cd -
