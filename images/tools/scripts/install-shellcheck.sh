@@ -42,7 +42,6 @@ install_shellcheck() {
 
   os=$(uname -s | tr '[:upper:]' '[:lower:]')
   arch=$(uname -m)
-
   archive=./shellcheck.tar.xz
   exec=shellcheck-$release/shellcheck
   path=/usr/local/bin/
