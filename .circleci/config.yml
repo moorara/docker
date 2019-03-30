@@ -16,7 +16,7 @@ orbs:
     executors:
       docker:
         docker:
-          - image: docker:18.09.3-git
+          - image: docker:18.09.4-git
     commands:
       set-version:
         steps:
