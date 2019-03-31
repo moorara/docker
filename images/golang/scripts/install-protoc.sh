@@ -41,12 +41,14 @@ install_protoc() {
   os=linux
   arch=x86_64
   archive=./protoc.zip
-  protoc=bin/protoc
-  path=/usr/local/bin/protoc
+  path=protoc
 
   curl -fsSL "https://github.com/protocolbuffers/protobuf/releases/download/${release}/protoc-${version}-${os}-${arch}.zip" -o ${archive}
-  unzip -p ${archive} ${protoc} > ${path}
-  chmod +x ${path}
+  unzip -d ${path} ${archive}
+  mv "${path}/bin/protoc" /usr/local/bin/protoc
+  mv "${path}/include/google" /usr/local/include/
+  chmod +x /usr/local/bin/protoc
+  rm -rf ${archive} ${path}
 
   echo "protoc ${release} installed successfully!"
 }

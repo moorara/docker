@@ -48,7 +48,7 @@ install_shellcheck() {
 
   curl -fsSL "https://storage.googleapis.com/shellcheck/shellcheck-$release.$os.$arch.tar.xz" -o ${archive}
   tar --strip-components=1 -C ${path} --xz -xvf ${archive} "$exec"
-  rm -rf ${archive}
+  rm ${archive}
 
   echo "shellcheck ${release} installed successfully!"
 }
