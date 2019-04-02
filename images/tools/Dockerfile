@@ -16,7 +16,7 @@ LABEL org.opencontainers.image.version="$version" \
 # Install must-have tools
 RUN apk add --no-cache \
       ca-certificates openssl openssh openssh-client \
-      bash make git wget curl jq tar gzip xz gnupg \
+      coreutils bash make git wget curl jq tar gzip xz gnupg \
       python3 py-pip ruby ruby-json
 
 # Required for running docker-compose
