@@ -44,12 +44,12 @@ RUN /scripts/install-kubectl.sh && \
     /scripts/install-skaffold.sh
 
 # Install misc tools
-RUN /scripts/install-shellcheck.sh && \
-    pip install yamllint
+RUN pip install yamllint && \
+    /scripts/install-shellcheck.sh
 
 # Install SaaS command-line tools
-RUN /scripts/install-test-reporter.sh && \
-    curl -fLSs https://circle.ci/cli | bash
+RUN curl -fLSs https://circle.ci/cli | bash && \
+    /scripts/install-test-reporter.sh
 
 # Install Cherry (and github-changelog-generator)
 RUN gem install rdoc --no-document && \
