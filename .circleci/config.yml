@@ -11,7 +11,7 @@
 version: 2.1
 
 orbs:
-  compare-url: iynere/compare-url@0.4.11
+  compare-url: iynere/compare-url@1.1.0
   inline:
     executors:
       docker:
