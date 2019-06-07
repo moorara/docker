@@ -31,6 +31,7 @@ RUN GLIBC=2.28-r0 && \
     rm /etc/apk/keys/sgerrand.rsa.pub glibc-$GLIBC.apk
 
 COPY scripts /scripts
+COPY hashicorp.asc /hashicorp.asc
 
 # Install Docker tools
 RUN /scripts/install-docker.sh && \
@@ -42,6 +43,16 @@ RUN /scripts/install-kubectl.sh && \
     /scripts/install-kustomize.sh && \
     /scripts/install-draft.sh && \
     /scripts/install-skaffold.sh
+
+# Install HashiCorp tools
+RUN /scripts/install-hashicorp.sh --key hashicorp.asc --project packer && \
+    /scripts/install-hashicorp.sh --key hashicorp.asc --project terraform && \
+    /scripts/install-hashicorp.sh --key hashicorp.asc --project consul && \
+    /scripts/install-hashicorp.sh --key hashicorp.asc --project vault && \
+    /scripts/install-hashicorp.sh --key hashicorp.asc --project nomad
+
+# Install Cloud command-line tools
+RUN pip install awscli
 
 # Install misc tools
 RUN pip install yamllint && \

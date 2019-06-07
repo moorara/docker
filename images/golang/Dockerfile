@@ -25,15 +25,12 @@ RUN apt-get update && \
 
 COPY scripts /scripts
 
-# Install linter
+# Install linters
 RUN /scripts/install-golangci-lint.sh
 
 # Install Code Climate test-reporter
 RUN curl -fsSL -o /usr/local/bin/test-reporter https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 && \
     chmod 755 /usr/local/bin/test-reporter
-
-# Install Coveralls Go client
-RUN go get github.com/mattn/goveralls
 
 # Install Cherry
 RUN curl -s https://raw.githubusercontent.com/moorara/cherry/master/scripts/install.sh | bash

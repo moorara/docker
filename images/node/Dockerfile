@@ -28,4 +28,4 @@ RUN curl -fsSL -o /usr/local/bin/test-reporter https://codeclimate.com/downloads
     chmod 755 /usr/local/bin/test-reporter
 
 # Install node packages
-RUN npm install -g yarn mocha 
+RUN npm install -g yarn 
