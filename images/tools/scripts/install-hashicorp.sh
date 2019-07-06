@@ -4,27 +4,27 @@
 # USAGE:
 #
 #   ./install-hashicorp.sh -k hashicorp.asc -p packer
-#   ./install-hashicorp.sh -k hashicorp.asc -p packer -r 1.4.1
-#   ./install-hashicorp.sh --key hashicorp.asc --project packer --release 1.4.1
+#   ./install-hashicorp.sh -k hashicorp.asc -p packer -r 1.4.2
+#   ./install-hashicorp.sh --key hashicorp.asc --project packer --release 1.4.2
 #
 #   ./install-hashicorp.sh -k hashicorp.asc -p terraform
-#   ./install-hashicorp.sh -k hashicorp.asc -p terraform -r 0.12.1
-#   ./install-hashicorp.sh --key hashicorp.asc --project terraform --release 0.12.1
+#   ./install-hashicorp.sh -k hashicorp.asc -p terraform -r 0.12.3
+#   ./install-hashicorp.sh --key hashicorp.asc --project terraform --release 0.12.3
 #
 #   ./install-hashicorp.sh -k hashicorp.asc -p consul
-#   ./install-hashicorp.sh -k hashicorp.asc -p consul -r 1.5.1
-#   ./install-hashicorp.sh --key hashicorp.asc --project consul --release 1.5.1
+#   ./install-hashicorp.sh -k hashicorp.asc -p consul -r 1.5.2
+#   ./install-hashicorp.sh --key hashicorp.asc --project consul --release 1.5.2
 #
 #   ./install-hashicorp.sh -k hashicorp.asc -p vault
 #   ./install-hashicorp.sh -k hashicorp.asc -p vault -r 1.1.3
 #   ./install-hashicorp.sh --key hashicorp.asc --project vault --release 1.1.3
 #
 #   ./install-hashicorp.sh -k hashicorp.asc -p nomad
-#   ./install-hashicorp.sh -k hashicorp.asc -p nomad -r 0.9.2
-#   ./install-hashicorp.sh --key hashicorp.asc --project nomad --release 0.9.2
+#   ./install-hashicorp.sh -k hashicorp.asc -p nomad -r 0.9.3
+#   ./install-hashicorp.sh --key hashicorp.asc --project nomad --release 0.9.3
 #
 
-set -eu # -o pipefail
+set -eu
 
 
 ensure_command() {
@@ -57,7 +57,9 @@ process_args() {
   done
 
   key=${key:-"hashicorp.asc"}
-  release=${release:-$(curl -s "https://releases.hashicorp.com/${project}/" | grep -oE '[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2}' | head -n 1)}
+  semver_regex='[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2}'
+  latest_release=$(curl -s "https://releases.hashicorp.com/${project}/" | grep -oE "${project}_${semver_regex}</a>" | grep -oE "$semver_regex" | head -n 1)
+  release=${release:-$latest_release}
 }
 
 install_project() {
