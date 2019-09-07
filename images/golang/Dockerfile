@@ -1,5 +1,5 @@
 # Final Image
-FROM golang:1.12
+FROM golang:1.13
 
 ARG version
 ARG revision
