@@ -17,7 +17,7 @@ LABEL org.opencontainers.image.version="$version" \
 # Install must-have tools
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
-      ca-certificates netcat openssl openssh-server openssh-client \
+      ca-certificates openssl openssh-server openssh-client \
       bash make vim git wget curl jq tar gzip zip unzip gnupg && \
     apt-get autoremove -y && \
     apt-get clean -y && \
