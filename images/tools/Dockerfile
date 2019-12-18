@@ -1,3 +1,4 @@
+# Final Image
 FROM alpine:3.10
 
 ARG version
@@ -40,7 +41,6 @@ RUN /scripts/install-docker.sh && \
 # Install Kubernetes tools
 RUN /scripts/install-kubectl.sh && \
     /scripts/install-helm.sh && \
-    /scripts/install-kustomize.sh && \
     /scripts/install-draft.sh && \
     /scripts/install-skaffold.sh
 
