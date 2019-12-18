@@ -26,6 +26,3 @@ RUN apt-get update && \
 # Install Code Climate test-reporter
 RUN curl -fsSL -o /usr/local/bin/test-reporter https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 && \
     chmod 755 /usr/local/bin/test-reporter
-
-# Install node packages
-RUN npm install -g yarn 
