@@ -1,5 +1,5 @@
 # Final Image
-FROM alpine:3.11
+FROM alpine:3.12
 
 ARG version
 ARG revision
