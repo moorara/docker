@@ -12,7 +12,7 @@ LABEL repository="https://github.com/moorara/docker" \
 LABEL org.opencontainers.image.version="$version" \
       org.opencontainers.image.revision="$revision" \
       org.opencontainers.image.created="$build_time" \
-      org.opencontainers.image.source="https://github.com/moorara/docker/tree/master/images/node"
+      org.opencontainers.image.source="https://github.com/moorara/docker/tree/main/images/node"
 
 # Install must-have tools
 RUN apt-get update && \

@@ -12,7 +12,7 @@ LABEL repository="https://github.com/moorara/docker" \
 LABEL org.opencontainers.image.version="$version" \
       org.opencontainers.image.revision="$revision" \
       org.opencontainers.image.created="$build_time" \
-      org.opencontainers.image.source="https://github.com/moorara/docker/tree/master/images/golang"
+      org.opencontainers.image.source="https://github.com/moorara/docker/tree/main/images/golang"
 
 # Install must-have tools
 RUN apt-get update && \
@@ -31,6 +31,3 @@ RUN /scripts/install-golangci-lint.sh
 # Install Code Climate test-reporter
 RUN curl -fsSL -o /usr/local/bin/test-reporter https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 && \
     chmod 755 /usr/local/bin/test-reporter
-
-# Install Cherry
-RUN curl -s https://raw.githubusercontent.com/moorara/cherry/master/scripts/install.sh | bash

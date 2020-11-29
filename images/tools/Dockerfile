@@ -12,7 +12,7 @@ LABEL repository="https://github.com/moorara/docker" \
 LABEL org.opencontainers.image.version="$version" \
       org.opencontainers.image.revision="$revision" \
       org.opencontainers.image.created="$build_time" \
-      org.opencontainers.image.source="https://github.com/moorara/docker/tree/master/images/tools"
+      org.opencontainers.image.source="https://github.com/moorara/docker/tree/main/images/tools"
 
 # Install must-have tools
 RUN apk add --no-cache \
@@ -61,8 +61,3 @@ RUN pip install yamllint && \
 # Install SaaS command-line tools
 RUN curl -fLSs https://circle.ci/cli | bash && \
     /scripts/install-test-reporter.sh
-
-# Install Cherry (and github-changelog-generator)
-RUN gem install rdoc --no-document && \
-    gem install github_changelog_generator && \
-    curl -s https://raw.githubusercontent.com/moorara/cherry/master/scripts/install.sh | bash
